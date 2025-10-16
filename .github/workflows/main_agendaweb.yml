@@ -1,4 +1,5 @@
-# Pipeline GitHub Actions - Angular 20 no Azure App Service
+# Workflow GitHub Actions - Build e Deploy de Angular 20 no Azure App Service
+# Autor: Sergio Mendes
 
 name: Build and deploy Angular app to Azure Web App - agendaweb
 
@@ -26,14 +27,38 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Angular app
+      - name: Build Angular app (production)
         run: npm run build -- --configuration=production
+
+      - name: Add web.config for Angular routing
+        run: |
+          echo ^<configuration^> > dist/agendaWeb/browser/web.config
+          echo ^  ^<system.webServer^> >> dist/agendaWeb/browser/web.config
+          echo ^    ^<rewrite^> >> dist/agendaWeb/browser/web.config
+          echo ^      ^<rules^> >> dist/agendaWeb/browser/web.config
+          echo ^        ^<rule name="Angular Routes" stopProcessing="true"^> >> dist/agendaWeb/browser/web.config
+          echo ^          ^<match url=".*" /^> >> dist/agendaWeb/browser/web.config
+          echo ^          ^<conditions logicalGrouping="MatchAll"^> >> dist/agendaWeb/browser/web.config
+          echo ^            ^<add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" /^> >> dist/agendaWeb/browser/web.config
+          echo ^            ^<add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" /^> >> dist/agendaWeb/browser/web.config
+          echo ^          ^</conditions^> >> dist/agendaWeb/browser/web.config
+          echo ^          ^<action type="Rewrite" url="/index.html" /^> >> dist/agendaWeb/browser/web.config
+          echo ^        ^</rule^> >> dist/agendaWeb/browser/web.config
+          echo ^      ^</rules^> >> dist/agendaWeb/browser/web.config
+          echo ^    ^</rewrite^> >> dist/agendaWeb/browser/web.config
+          echo ^    ^<defaultDocument^> >> dist/agendaWeb/browser/web.config
+          echo ^      ^<files^> >> dist/agendaWeb/browser/web.config
+          echo ^        ^<add value="index.html" /^> >> dist/agendaWeb/browser/web.config
+          echo ^      ^</files^> >> dist/agendaWeb/browser/web.config
+          echo ^    ^</defaultDocument^> >> dist/agendaWeb/browser/web.config
+          echo ^  ^</system.webServer^> >> dist/agendaWeb/browser/web.config
+          echo ^</configuration^> >> dist/agendaWeb/browser/web.config
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: angular-dist        
-          path: dist/agendaWeb
+          name: angular-dist
+          path: dist/agendaWeb/browser
 
   deploy:
     runs-on: ubuntu-latest
@@ -59,6 +84,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'agendaWeb'
+          app-name: 'agendaweb'
           slot-name: 'Production'
-          package: .
+          package: dist/agendaWeb/browser
