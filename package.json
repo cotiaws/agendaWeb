@@ -28,6 +28,9 @@
     "@angular/forms": "^20.1.0",
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
+    "angular-highcharts": "^17.0.1",
+    "bootstrap": "^5.3.7",
+    "highcharts": "^12.3.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

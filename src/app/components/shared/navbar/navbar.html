@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg bg-primary shadow" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/pages/dashboard">AgendaWeb</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" routerLink="/pages/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Gerenciamento de tarefas
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" routerLink="/pages/cadastrar-tarefas">Cadastrar tarefas</a></li>
+                        <li><a class="dropdown-item" routerLink="/pages/consultar-tarefas">Consultar tarefas</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Usuário logado e Logout -->
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3">
+                    Usuário: <span class="fw-bold">{{ nome() }}</span>
+                </span>
+                <button class="btn btn-outline-light btn-sm me-3" (click)="logout()">
+                    Sair da Agenda
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>

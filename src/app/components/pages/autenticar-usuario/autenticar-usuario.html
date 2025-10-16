@@ -1,0 +1,53 @@
+<!-- login.component.html -->
+<div class="d-flex justify-content-center align-items-center vh-100"
+    style="background: linear-gradient(135deg, #4e54c8, #8f94fb);">
+
+    <div class="card shadow p-4" style="width: 350px; border-radius: 10px;">
+
+        <div class="text-center">
+            <img src="https://www.cotiinformatica.com.br/imagens/logo-coti-informatica.svg" alt="COTI Informática">
+        </div>
+
+        <hr />
+
+        <div *ngIf="mensagemErro() != ''" class="alert alert-danger alert-dismissible fade show">
+            <strong>{{ mensagemErro() }}</strong>
+            <button type="button" class="btn-close" aria-label="Close" (click)="mensagemErro.set('')"></button>
+        </div>
+
+        <form [formGroup]="formAutenticacao" (ngSubmit)="autenticarUsuario()">
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email de acesso:</label>
+                <input type="email" formControlName="email" class="form-control" id="email"
+                    placeholder="Digite seu email" required>
+                <div class="text-danger"
+                    *ngIf="formAutenticacao.get('email')?.touched && formAutenticacao.get('email')?.invalid">
+                    O campo é obrigatório e deve conter um formato de email válido.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha de acesso:</label>
+                <input type="password" formControlName="senha" class="form-control" id="senha"
+                    placeholder="Digite sua senha" required>
+                <div class="text-danger"
+                    *ngIf="formAutenticacao.get('senha')?.touched && formAutenticacao.get('senha')?.invalid">
+                    O campo é obrigatório e deve conter pelo menos 8 caracteres.
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" [disabled]="formAutenticacao.invalid">
+                Acessar
+            </button>
+
+        </form>
+
+        <div class="text-center mt-3">
+            <a routerLink="/pages/criar-usuario" class="text-decoration-none">
+                Não possui conta? <strong>Crie aqui!</strong>
+            </a>
+        </div>
+
+    </div>
+</div>

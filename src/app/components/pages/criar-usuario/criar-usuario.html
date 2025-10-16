@@ -1,0 +1,135 @@
+<!-- login.component.html -->
+<div class="d-flex justify-content-center align-items-center vh-100"
+    style="background: linear-gradient(135deg, #4e54c8, #8f94fb);">
+
+    <div class="card shadow p-4" style="width: 350px; border-radius: 10px;">
+
+        <div class="text-center">
+            <img src="https://www.cotiinformatica.com.br/imagens/logo-coti-informatica.svg" alt="COTI Informática">
+        </div>
+
+        <hr />
+
+        <div *ngIf="mensagemSucesso() != ''" class="alert alert-success alert-dismissible fade show">
+            <strong>{{ mensagemSucesso() }}</strong>
+            <button type="button" class="btn-close" aria-label="Close" (click)="mensagemSucesso.set('')"></button>
+        </div>
+
+        <div *ngIf="mensagemErro() != ''" class="alert alert-danger alert-dismissible fade show">
+            <strong>{{ mensagemErro() }}</strong>
+            <button type="button" class="btn-close" aria-label="Close" (click)="mensagemErro.set('')"></button>
+        </div>
+
+        <form [formGroup]="formCriarUsuario" (ngSubmit)="onSubmit()">
+
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome do usuário:</label>
+                <input type="text" formControlName="nome" class="form-control" id="nome" placeholder="Digite seu nome"
+                    required>
+                <div class="text-danger"
+                    *ngIf="formCriarUsuario.get('nome')?.touched && formCriarUsuario.get('nome')?.invalid">
+                    Por favor, insira um nome com pelo menos 8 caracteres.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email de acesso:</label>
+                <input type="email" formControlName="email" class="form-control" id="email"
+                    placeholder="Digite seu email" required>
+                <div class="text-danger"
+                    *ngIf="formCriarUsuario.get('email')?.touched && formCriarUsuario.get('email')?.invalid">
+                    Por favor, insira um endereço de email válido.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha de acesso:</label>
+                <input type="password" formControlName="senha" class="form-control" id="senha"
+                    placeholder="Digite sua senha" required>
+                <div class="text-danger"
+                    *ngIf="formCriarUsuario.get('senha')?.touched && formCriarUsuario.get('senha')?.invalid">
+                    Por favor, insira uma senha com pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas,
+                    números e caracteres especiais.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="confirmarSenha" class="form-label">Confirme a senha:</label>
+                <input type="password" formControlName="confirmarSenha" class="form-control" id="confirmarSenha"
+                    placeholder="Confirme sua senha" required>
+                <div class="text-danger"
+                    *ngIf="formCriarUsuario.get('confirmarSenha')?.touched && formCriarUsuario.get('confirmarSenha')?.invalid">
+                    Por favor, confirme sua senha.
+                </div>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="termos" formControlName="termos">
+                <label class="form-check-label" for="termos">
+                    Aceito os
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#modalTermos">termos de consentimento</a>
+                </label>
+                <div class="text-danger"
+                    *ngIf="formCriarUsuario.get('termos')?.touched && formCriarUsuario.get('termos')?.invalid">
+                    Você deve aceitar os termos para prosseguir.
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" [disabled]="formCriarUsuario.invalid">
+                Criar Usuário
+            </button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a routerLink="/pages/autenticar-usuario" class="text-decoration-none">
+                Já possui conta? <strong>Acesse aqui!</strong>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalTermos" tabindex="-1" aria-labelledby="modalTermosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTermosLabel">Termos de Consentimento – Agenda Web</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <h6>1. Coleta e uso de dados</h6>
+                <p>Ao utilizar a Agenda Web, você concorda que podemos coletar informações pessoais, como nome, email,
+                    compromissos e eventos cadastrados, para fornecer os serviços da plataforma de forma personalizada e
+                    eficiente.</p>
+
+                <h6>2. Finalidade do tratamento de dados</h6>
+                <p>Seus dados serão utilizados exclusivamente para:</p>
+                <ul>
+                    <li>Gerenciar e organizar compromissos e eventos;</li>
+                    <li>Enviar notificações sobre compromissos cadastrados;</li>
+                    <li>Melhorar a experiência e funcionalidades da plataforma.</li>
+                </ul>
+
+                <h6>3. Compartilhamento de informações</h6>
+                <p>Não compartilharemos suas informações pessoais com terceiros, exceto quando exigido por lei ou para
+                    proteger direitos legais da Agenda Web.</p>
+
+                <h6>4. Segurança dos dados</h6>
+                <p>Adotamos medidas técnicas e administrativas para proteger suas informações contra acesso não
+                    autorizado, alteração, divulgação ou destruição.</p>
+
+                <h6>5. Armazenamento e exclusão</h6>
+                <p>Seus dados serão armazenados enquanto você utilizar a plataforma. Você pode solicitar a exclusão de
+                    suas informações a qualquer momento, entrando em contato com o suporte.</p>
+
+                <h6>6. Consentimento</h6>
+                <p>Ao marcar a caixa de aceite dos termos, você declara que leu, entendeu e concorda com o tratamento
+                    dos seus dados conforme descrito acima.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>

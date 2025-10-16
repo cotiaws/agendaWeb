@@ -1,0 +1,19 @@
+<app-navbar />
+
+<div class="container mt-3">
+    <div class="card shadow">
+        <div class="card-body">
+            <h4>Dashboard principal</h4>
+            <p>Seja bem vindo ao sistema de agenda de tarefas.</p>
+
+            <div class="row mt-2">
+                <div class="col-md-6" *ngIf="graficoColunas() as grafico">
+                    <div [chart]="grafico"></div>
+                </div>
+                <div class="col-md-6" *ngIf="graficoDonut() as grafico">
+                    <div [chart]="grafico"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

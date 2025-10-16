@@ -1,0 +1,72 @@
+<app-navbar />
+
+<div class="container mt-3">
+    <div class="card shadow">
+        <div class="card-body">
+            <h4>Formulário de cadastro de tarefas</h4>
+            <p>Preencha os campos e inclua uma tarefa em sua agenda.</p>
+            <hr />
+
+            <div *ngIf="mensagem() != ''" class="alert alert-secondary alert-dismissible fade show">
+                <strong>{{ mensagem() }}</strong>
+                <button type="button" class="btn-close" aria-label="Close" (click)="mensagem.set('')"></button>
+            </div>
+
+            <form [formGroup]="formCadastro" (ngSubmit)="cadastrarTarefa()">
+
+                <div class="mb-3">
+                    <label>Nome da tarefa:</label>
+                    <input type="text" class="form-control" formControlName="nome" />
+                    <div class="text-danger"
+                        *ngIf="formCadastro.get('nome')?.touched && formCadastro.get('nome')?.invalid">
+                        O nome da tarefa é obrigatório e deve ter pelo menos 8 caracteres.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label>Data da tarefa:</label>
+                    <input type="date" class="form-control" formControlName="data" />
+                    <div class="text-danger"
+                        *ngIf="formCadastro.get('data')?.touched && formCadastro.get('data')?.invalid">
+                        A data da tarefa é obrigatória.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label>Prioridade da tarefa:</label>
+                    <select class="form-select" formControlName="prioridade">
+                        <option value="">Escolha uma opção</option>
+                        <option value="BAIXA">Baixa prioridade</option>
+                        <option value="MEDIA">Média prioridade</option>
+                        <option value="ALTA">Alta prioridade</option>
+                    </select>
+                    <div class="text-danger"
+                        *ngIf="formCadastro.get('prioridade')?.touched && formCadastro.get('prioridade')?.invalid">
+                        A prioridade da tarefa é obrigatória.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label>Categoria da tarefa:</label>
+                    <select class="form-select" formControlName="categoriaId">
+                        <option value="">Escolha uma opção</option>
+                        <option *ngFor="let item of categorias()" value="{{ item.id }}">
+                            {{ item.nome }}
+                        </option>
+                    </select>
+                    <div class="text-danger"
+                        *ngIf="formCadastro.get('categoriaId')?.touched && formCadastro.get('categoriaId')?.invalid">
+                        A categoria da tarefa é obrigatória.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <input type="submit" class="btn"
+                        [ngClass]="{'btn-success': formCadastro.valid, 'btn-secondary': formCadastro.invalid}"
+                        [disabled]="formCadastro.invalid" value="Cadastrar tarefa" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
